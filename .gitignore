@@ -1,3 +1,6 @@
 .vscode
 
-node_modedules/ 
+# Ignore the node_modules folder: Tức là những link gắn trong đây sẽ không được push lên git
+# link css được bỏ qua, không được push lên git vì nó không cần thiết, chỉ code css bên trong scss thôi
+src/public/css/  
+node_modedules/

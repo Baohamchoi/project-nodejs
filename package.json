@@ -2,9 +2,10 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "my blog",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "nodemon --inspect main.js",
+    "start": "nodemon --inspect src/main.js",
+    "watch": "node-sass --watch src/resources/scss/ --output src/public/css/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,9 +24,12 @@
   },
   "homepage": "https://github.com/Baohamchoi/project-nodejs#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "node-sass": "^9.0.0",
     "nodemon": "^3.1.2"
   }
 }
