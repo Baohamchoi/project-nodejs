@@ -10,8 +10,8 @@ app.use(express.static(path.join(__dirname, 'public'))); // Cho phép truy cập
 // chạy server trên localhost:4000/img/logo.png thì có thể tấy được ảnh logo.png trong thư mục public
 
 // Middleware: xử lý dữ liệu từ form (POST
-app.use(express.urlencoded({extends: true}));
-app.use(express.json());
+      app.use(express.urlencoded({extends: true}));
+      app.use(express.json());
 
 // HTTP logger
 app.use(morgan('combined'));
@@ -31,6 +31,6 @@ app.set('views', path.join(__dirname, 'resources/views'));
 //Routes init: Khởi tạo các routes (Tuyến đường của các trang web)
 route(app);
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`); // http://localhost:4000
-})
+app.listen(port, () =>
+  console.log(`Example app listening at http://localhost:${port}`) // http://localhost:4000
+);
