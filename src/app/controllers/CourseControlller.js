@@ -22,11 +22,10 @@ class CourseController {
     // [POST]  Đường dẫn: /courses/store
 
     store(req, res, next) {
-        const formData = req.body;
-        formData.image = `htpps://img.youtube.com/vi/${formData.videoId}/sddefault.jpg`; // Tạo ra một đường dẫn ảnh thumbnail từ videoId
-        const course = new Course(formData);
+        req.body.image = `htpps://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`; // Tạo ra một đường dẫn ảnh thumbnail từ videoId
+        const course = new Course(req.body);
         course.save()
-            .then(() => res.redirect('/'))
+            .then(() => res.redirect('/me/stored/courses'))
             .catch(error => {});
     }
 
@@ -44,6 +43,46 @@ class CourseController {
         Course.updateOne({_id: req.params.id}, req.body)
             .then(() => res.redirect('/me/stored/courses'))  // Chuyển hướng về trang courses đã lưu
             .catch(next);
+    }
+
+    // [DELETE]  Đường dẫn: /courses/:id : Xóa khóa học, nhưng không xóa hẳn khỏi database (nó vẫn còn tồn tại trong database)
+    destroy(req, res, next) {
+        Course.delete({_id: req.params.id})    // Xóa khóa học
+            .then(() => res.redirect('back'))  // Chuyển hướng về trang trước đó
+            .catch(next);
+    }
+
+    // [DELETE]  Đường dẫn: /courses/:id/forceDelete : Xóa hẳn khóa học khỏi database
+    forceDestroy(req, res, next) {
+        Course.deleteOne({_id: req.params.id})    // Xóa hẳn khóa học khỏi database
+            .then(() => res.redirect('back'))  // Chuyển hướng về trang trước đó
+            .catch(next);
+    }
+
+
+    // [PATCH]  Đường dẫn: /courses/:id/restore
+    restore(req, res, next) {
+        Course.restore({_id: req.params.id})    // Khôi phục khóa học
+            .then(() => res.redirect('back'))  // Chuyển hướng về trang trước đó
+            .catch(next);
+    }
+
+    // [POST]  Đường dẫn: /courses/handle-form-actions
+    handleFormActions(req, res, next) {
+        switch(req.body.action) {
+            case 'delete':
+                Course.delete({_id: {$in: req.body.courseIds}})
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            case 'restore':
+                Course.restore({_id: {$in: req.body.courseIds}})
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            default:
+                res.json({message: 'Action is invalid!'});
+    }
     }
 
     // [GET]: Gửi yêu cầu lên server và yêu cầu server trả lại dữ liệu đó

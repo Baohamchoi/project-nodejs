@@ -4,3 +4,4 @@
 # link css được bỏ qua, không được push lên git vì nó không cần thiết, chỉ code css bên trong scss thôi
 src/public/css/  
 node_modedules/
+src/public/vendor/
